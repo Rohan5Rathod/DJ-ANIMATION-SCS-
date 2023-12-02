@@ -1,36 +1,65 @@
-gsap.registerPlugin(ScrollTrigger);
+'use script';
 
-const splitTypes = document.querySelectorAll('.reveal_type');
+let circle = document.querySelector('.circle');
 
-splitTypes.forEach((char, i) => {
-  const text = new SplitType(char, { types: 'chars' });
+window.addEventListener('mousemove', function (details) {
+  let xvalue = details.clientX;
+  let yvalue = details.clientY;
 
-  gsap.from(text.chars,{
-    scrollTrigger:{
-      trigger:char,
-      start:"top 100%",
-      end:"top 20%",
-      scrub:true,
-    },
-    scaleY:0,
-    y:20,
-    opacity:0.2,
-    TransformOrigin:"bottom",
-    opacity:0,
-    stagger:0.1,
-  })
-})
-
-  
-const lenis = new Lenis();
-
-lenis.on('scroll', (e) => {
-  console.log(e);
+  setTimeout(() => {
+    circle.style.top = `${yvalue}px`;
+    circle.style.left = `${xvalue}px`;
+  }, 100);
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
 
-requestAnimationFrame(raf);
+var tl = gsap.timeline();
+
+tl.from(".wrapper",{
+    duration:3,
+    scale:0.6,
+    ease:"Expo.easeInOut",
+    opacity:0,
+})
+.from(".whitestrip",{
+    duration:3,
+    width:0,
+    ease:"Expo.easeInOut",
+},'-=2.5')
+.from(".blackcard",{
+    duration:1.5,
+    x:50,
+    opacity:0,
+    ease:"Expo.easeInOut",
+},'-=1')
+.from(".lineelem",{
+    duration:1.5,
+    x:50,
+    opacity:0,
+    ease:"Expo.easeInOut",
+},'-=1')
+.from(".lineelem .line",{
+    duration:2.5,
+    width:0,
+    opacity:0,
+    ease:"Expo.easeInOut",
+},'-=1')
+.from(".blackcard p",{
+    duration:2,
+    y:30,
+    opacity:0,
+    ease:"Expo.easeInOut",
+},'-=1.5')
+.from(".sideelem",{
+    duration:2,
+    y:30,
+    opacity:0,
+    ease:"Expo.easeInOut",
+},'-=1.5')
+
+
+const btn = document.querySelector("#btn");
+
+btn.addEventListener('click', function(){
+    tl.reverse();
+})
